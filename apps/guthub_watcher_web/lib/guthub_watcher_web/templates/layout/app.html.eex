@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>GitHub statistics</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GitStat provides statistics on how many repositories are contained in GitHub per a programming language.">
+    <meta name="keywords" content="GitHub, programming language, statistics, repositories">
+    <meta name="author" content="Alexander Golubov">        
+    <meta http-equiv="refresh" content="86400">
+
+    <meta property="og:title" content="GitHub programming language statistics" />
+    <meta property="og:url" content="https://gitstat.tk" />
+    <meta property="og:description" content="GitStat provides statistics on how many repositories are contained in GitHub per a programming language." />
+    <meta property="og:site_name" content="GitStat" />
+
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>"/>
+    <link rel="canonical" href="https://gitstat.tk"/>
+  </head>
+
+  <body class="system-sans-serif fw3"> 
+    <header class="mw7 center ph3 mt0">
+      <div class="f5 f5-m f5-l gray tr bg-near-white flex justify-end items-center">
+        <div class="mr2 pv3 white navy code">
+          Built with
+        </div>
+        <a href="https://elixir-lang.org" 
+          class="pl2 pv3 pr2 bg-animate bg-navy hover-bg-dark-blue white hover-white link no-underline fw4 code" target="_blank">
+          elixir
+        </a>
+      </div>            
+    
+      <h1 class="f4 f3-m f2-l fw3 black-90 mb2">
+        GitHub programming language statistics
+      </h1>
+      <p class="lh-copy f6 f6-m f5-l">        
+        GitStat provides statistics on how many repositories are contained in GitHub per a programming language.
+      </p>
+      <p class="lh-copy f6 f6-m f5-l silver">        
+        The files and directories within a GitHub repository determine the languages that make up the repository.
+        Each repository has a primary programming language for which statistics are collected. 
+        More about <a href="https://help.github.com/articles/about-repository-languages/" class="link dim blue" target="_blank">repository languages</a>. See <a href="#notes" class="link dim blue">notes.</a>
+      </p>    
+    </header>    
+
+    <main class="mw7 center mv2 ph3">
+      <%= render @view_module, @view_template, assigns %>
+    </main>    
+
+    <footer class="mw7 center bg-near-white ph3 pv4 mt5">
+      <div class="flex flex-column">
+        <div class="flex justify-between f6 moon-gray">
+          <div class="silver">
+            &#x24B8; <%= Timex.today().year %> Alexander Golubov 
+          </div>   
+          <div class="ml4 silver">
+            mobiledev360@gmail.com
+          </div>            
+        </div>
+      </div>
+    </footer>
+
+    <!-- Yandex.Metrika counter -->
+<!--
+    <script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter46284516 = new Ya.Metrika({ id:46284516, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/46284516" style="position:absolute; left:-9999px;" alt="" /></div></noscript> 
+-->
+    <!-- /Yandex.Metrika counter -->
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+    <script id="dsq-count-scr" src="//gitstat-tk.disqus.com/count.js" async></script>
+  </body>
+</html>

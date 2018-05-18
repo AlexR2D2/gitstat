@@ -1,0 +1,15 @@
+/* This file is for your main application css. */
+
+/* tachyons extensions */
+
+.w3_5 {
+  width: 6rem
+}
+
+.w3_75 {
+  width: 7rem
+}
+
+@media screen and (max-width: 30em) {
+  .clip-mob { position: fixed !important; position: absolute !important; clip: rect( 1px 1px 1px 1px ); /* IE6, IE7 */ clip: rect( 1px, 1px, 1px, 1px ); }
+ }

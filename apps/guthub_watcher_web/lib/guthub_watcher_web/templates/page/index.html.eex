@@ -1,0 +1,218 @@
+<!-- mobile version -->
+
+<div class="flex flex-column clip-ns">
+  <div class="flex">
+    <div class="pr1 pr2-m pr3-l f6 f6-m f5-l silver">Repos created per:</div>
+    <div class="pr1 pr2-m pr3-l f6 f6-m f5-l"><a href="<%=page_path(@conn, :index, resolution: :day)%>" class="link hover-silver pa1  <%=if(Map.has_key?(@conn.assigns, :days), do: "red", else: "blue")%>">Day</a></div>
+    <div class="pr1 pr2-m pr3-l f6 f6-m f5-l"><a href="<%=page_path(@conn, :index, resolution: :week)%>" class="link hover-silver pa1 <%=if(Map.has_key?(@conn.assigns, :weeks), do: "red", else: "blue")%>">Week</a></div>
+    <div class="pr1 pr2-m pr3-l f6 f6-m f5-l"><a href="<%=page_path(@conn, :index, resolution: :month)%>" class="link hover-silver pa1 <%=if(Map.has_key?(@conn.assigns, :months), do: "red", else: "blue")%>">Month</a></div>
+    <div class="pr1 pr2-m pr3-l f6 f6-m f5-l"><a href="<%=page_path(@conn, :index, resolution: :year)%>" class="link hover-silver pa1 <%=if(Map.has_key?(@conn.assigns, :years), do: "red", else: "blue")%>">Year</a></div>  
+  </div>
+</div>
+
+<!-- desktop version -->
+
+
+
+<div class="flex justify-between items-center clip-mob bg-near-white">
+  <div class="flex items-center">
+    <div class="pr1 pr2-m pr3-l f6 f6-m f5-l silver ml3">Repos created per:</div>
+
+      <a href="<%=page_path(@conn, :index, resolution: :day)%>" 
+        class="pv3 tc f6 f6-m f5-l w3 link hover-white bg-animate hover-bg-moon-gray ba b--white bw0 <%=if(Map.has_key?(@conn.assigns, :days), do: "bg-yellow dark-gray", else: "bg-near-white gray")%>">
+          Day
+      </a>
+
+      <a href="<%=page_path(@conn, :index, resolution: :week)%>" 
+        class="pv3 tc f6 f6-m f5-l w3 link hover-white bg-animate hover-bg-moon-gray ba b--white bw0 <%=if(Map.has_key?(@conn.assigns, :weeks), do: "bg-yellow dark-gray", else: "bg-near-white gray")%>">
+        Week
+      </a>
+
+      <a href="<%=page_path(@conn, :index, resolution: :month)%>" 
+        class="pv3 tc f6 f6-m f5-l w3 link hover-white bg-animate hover-bg-moon-gray ba b--white bw0 <%=if(Map.has_key?(@conn.assigns, :months), do: "bg-yellow dark-gray", else: "bg-near-white gray")%>">
+        Month
+      </a>
+
+      <a href="<%=page_path(@conn, :index, resolution: :year)%>" 
+        class="pv3 tc f6 f6-m f5-l w3 link hover-white bg-animate hover-bg-moon-gray ba b--white bw0 <%=if(Map.has_key?(@conn.assigns, :years), do: "bg-yellow dark-gray", else: "bg-near-white gray")%>">
+        Year
+      </a>
+
+  </div>
+  <div class="f7 f7-m f6-l silver mr2">
+    updated: <%= if Map.has_key?(@conn.assigns, :stats_date), do: @stats_date, else: "" %>
+  </div>
+</div>
+
+<!-- mobile version -->
+
+<div class="flex flex-column clip-ns">
+  <%= for %{key: key, label: language, stats: stats} <- if(Map.has_key?(@conn.assigns, :total_stats), do: @total_stats, else: []) do %>    
+  <div class="flex flex-column pv3">
+    <div class="flex justify-between">
+      <div class="f6 tl"><%= language %></div>
+      <div class="flex">
+        <div class="f6 silver pl3 pr1">total repos:</div>
+        <div class="f6"><%= Number.Delimit.number_to_delimited(stats, delimiter: " ", precision: 0) %></div>
+      </div>
+    </div>
+    <div class="pt1">
+    <%= cond do %>      
+      <% Map.has_key?(@conn.assigns, :days) -> %>
+        <div class="flex justify-between items-center bg-yellow pv1">      
+          <%= for date <- @days do %>
+          <div class="w3_5 f7 tr">          
+            <%= date_to_string_mob(date) %>
+          </div>    
+          <% end %>
+        </div>
+      <% Map.has_key?(@conn.assigns, :weeks) -> %>
+        <div class="flex justify-between items-center bg-yellow pv1">      
+          <%= for week <- @weeks do %>
+          <div class="w3_5 f7 tr">          
+            <%= week.weekName %>
+          </div>    
+          <% end %>
+        </div>        
+      <% Map.has_key?(@conn.assigns, :months) -> %>
+        <div class="flex justify-between items-center bg-yellow pv1">      
+          <%= for month <- @months do %>
+          <div class="w3_5 f7 tr">          
+            <%= month.monthName %>
+          </div>    
+          <% end %>
+        </div>        
+      <% Map.has_key?(@conn.assigns, :years) -> %>
+        <div class="flex justify-between items-center bg-yellow pv1">      
+          <%= for year <- @years do %>
+          <div class="w3_5 f7 tr">          
+            <%= year.yearName %>
+          </div>    
+          <% end %>
+        </div>        
+      <% true -> %>
+        <div></div>
+    <% end %>    
+    </div>
+    <div class="flex justify-between items-center pt1">
+    <%= for repos_count <- if(Map.has_key?(@conn.assigns, :stats), do: @stats[key], else: []) do %>      
+      <a href="#" class="w3_5 f7 green tr no-underline"><%= repos_count %></a>
+    <% end %>    
+    </div>
+  </div>
+  <% end %>  
+</div>
+
+<!-- desktop version -->
+
+<div class="flex flex-column clip-mob">
+  <div class="flex justify-start pv2 pa2 bg-yellow dark-gray">
+    <div class="w3_75 f7 f7-m f6-l tl pv2">Total repos</div>
+    <div class="w3_75 f7 f7-m f6-l tl pv2">Language</div>
+    <%= cond do %>      
+      <% Map.has_key?(@conn.assigns, :days) -> %>
+        <div class="flex-auto flex justify-between items-center">      
+          <%= for date <- @days do %>
+          <div class="w3_5 f7 f7-m f6-l tr">          
+            <%= date_to_string(date) %>
+          </div>    
+          <% end %>
+        </div>
+      <% Map.has_key?(@conn.assigns, :weeks) -> %>
+        <div class="flex-auto flex justify-between items-center">      
+          <%= for week <- @weeks do %>
+          <div class="w3_5 f7 f7-m f6-l tr">          
+            <%= week.weekName %>
+          </div>    
+          <% end %>
+        </div>        
+      <% Map.has_key?(@conn.assigns, :months) -> %>
+        <div class="flex-auto flex justify-between items-center">      
+          <%= for month <- @months do %>
+          <div class="w3_5 f7 f7-m f6-l tr">          
+            <%= month.monthName %>
+          </div>    
+          <% end %>
+        </div>        
+      <% Map.has_key?(@conn.assigns, :years) -> %>
+        <div class="flex-auto flex justify-between items-center">      
+          <%= for year <- @years do %>
+          <div class="w3_5 f7 f7-m f6-l tr">          
+            <%= year.yearName %>
+          </div>    
+          <% end %>
+        </div>        
+      <% true -> %>
+        <div></div>
+    <% end %>
+
+  </div>
+  <%= for %{key: key, label: language, stats: stats} <- if(Map.has_key?(@conn.assigns, :total_stats), do: @total_stats, else: []) do %>    
+  <div class="flex justify-start no-underline bg-animate hover-bg-light-yellow pv1 ph1-m ph2-l">
+    <div class="w3_75 f7 f7-m f6-l tl"><%= Number.Delimit.number_to_delimited(stats, delimiter: " ", precision: 0) %></div>
+    <div class="w3_75 f7 f7-m f6-l tl"><%= language %></div>
+    <div class="flex-auto flex justify-between">
+      <%= for repos_count <- if(Map.has_key?(@conn.assigns, :stats), do: @stats[key], else: []) do %>      
+      <div class="w3_5 f7 f7-m f6-l green tr"><%= Number.Delimit.number_to_delimited(repos_count, delimiter: " ", precision: 0) %></div>
+      <% end %>
+    </div>
+  </div>  
+  <% end %>
+
+  <div class="bg-near-white tr mt2">
+    <a class="no-underline moon-gray hover-white bg-animate hover-bg-gray ba b--white bw1 inline-flex items-center ma2 tc br2 pa2" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fgitstat.tk&text=GitStat%20provides%20statistics%20on%20how%20many%20repositories%20are%20contained%20in%20GitHub%20per%20a%20programming%20language." title="Twitter" target="_blank">
+      <svg class="dib h1 w1" fill="currentColor" aria-labelledby="simpleicons-twitter-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-twitter-icon">Twitter icon</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+      <!--<span class="f6 ml3 pr2">Twitter</span>-->
+    </a>
+    <a class="no-underline moon-gray hover-white bg-animate hover-bg-gray ba b--white bw1 inline-flex items-center ma2 tc br2 pa2" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgitstat.tk" title="Facebook" target="_blank">
+      <svg class="dib h1 w1" fill="currentColor" aria-labelledby="simpleicons-facebook-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-facebook-icon">Facebook icon</title><path d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.099 1.894-4.785 4.659-4.785 1.325 0 2.464.097 2.796.141v3.24h-1.921c-1.5 0-1.792.721-1.792 1.771v2.311h3.584l-.465 3.63H16.56V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .593 23.408 0 22.676 0"/></svg>
+    </a>
+    <!--
+    <a class="no-underline moon-gray hover-white bg-animate hover-bg-gray ba b--white bw1 inline-flex items-center ma2 tc br2 pa2" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fgitstat.tk&title=GitStat%20provides%20statistics%20on%20how%20many%20repositories%20are%20contained%20in%20GitHub%20per%20a%20programming%20language." title="LinkedIn" target="_blank">
+      <svg class="dib h1 w1" fill="currentColor" aria-labelledby="simpleicons-linkedin-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-linkedin-icon">LinkedIn icon</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>      
+    </a>
+    <a class="no-underline moon-gray hover-white bg-animate hover-bg-gray ba b--white bw1 inline-flex items-center ma2 tc br2 pa2" href="https://medium.com/@mrmrs_/" title="Medium" target="_blank">
+      <svg class="dib h1 w1" fill="currentColor" aria-labelledby="simpleicons-medium-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-medium-icon">Medium icon</title><path d="M7.255 2.292l5.617 12.257h.177c.898-2.015 1.67-4.083 2.506-6.129s1.67-4.071 2.453-6.118h5.909a3.831 3.831 0 0 1-.25.366c-.439.49-.867 1.044-1.337 1.472a1.68 1.68 0 0 0-.501 1.284v13.572a1.128 1.128 0 0 0 .397.898c.46.407.898.835 1.336 1.263l.428.439h-9.156a2.934 2.934 0 0 1 .272-.345c.428-.407.856-.825 1.305-1.211a1.274 1.274 0 0 0 .459-1.044V9.245c0-.46 0-.919.073-1.368v-.751h-.136c-.083.167-.188.323-.25.5L11.024 21.2c-.073.188-.167.365-.261.543h-.126L3.893 6.98h-.146v9.667a2.015 2.015 0 0 0 .449 1.315c.804 1.044 1.587 2.088 2.38 3.132.105.136.188.282.334.48H0c.104-.177.177-.302.261-.407.825-1.096 1.66-2.202 2.495-3.288a1.89 1.89 0 0 0 .418-1.222V6.217a1.576 1.576 0 0 0-.345-1.044C2.16 4.38 1.565 3.523.876 2.636c-.073-.104-.136-.219-.24-.375z"/></svg>
+    </a>
+    -->    
+    <a class="no-underline moon-gray hover-white bg-animate hover-bg-gray ba b--white bw1 inline-flex items-center ma2 tc br2 pa2" href="https://plus.google.com/share?url=https%3A%2F%2Fgitstat.tk" title="Google" target="_blank">
+      <svg class="dib h1 w1" fill="currentColor" aria-labelledby="simpleicons-googleplus-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-googleplus-icon">Google+ icon</title><path d="M7.635 10.909v2.619h4.335c-.173 1.125-1.31 3.295-4.331 3.295-2.604 0-4.731-2.16-4.731-4.823 0-2.662 2.122-4.822 4.728-4.822 1.485 0 2.479.633 3.045 1.178l2.073-1.994c-1.33-1.245-3.056-1.995-5.115-1.995C3.412 4.365 0 7.785 0 12s3.414 7.635 7.635 7.635c4.41 0 7.332-3.098 7.332-7.461 0-.501-.054-.885-.12-1.265H7.635zm16.365 0h-2.183V8.726h-2.183v2.183h-2.182v2.181h2.184v2.184h2.189V13.09H24"/></svg>
+    </a>
+    <a class="no-underline moon-gray hover-white bg-animate hover-bg-gray ba b--white bw1 inline-flex items-center ma2 tc br2 pa2" href="http://www.tumblr.com/share?v=3&u=https%3A%2F%2Fgitstat.tk&t=GitStat%20provides%20statistics%20on%20how%20many%20repositories%20are%20contained%20in%20GitHub%20per%20a%20programming%20language." title="Tumblr" target="_blank">
+      <svg class="dib h1 w1" fill="currentColor" aria-labelledby="simpleicons-tumblr-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-tumblr-icon">Tumblr icon</title><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>          
+      <!--<span class="f6 ml3 pr2">Tumblr</span>-->
+    </a>
+  </div>  
+
+  <div>
+    <p class="lh-copy f6 f6-m f5-l silver pv3" id="notes">        
+      Notes: <span class="silver">Mirrors and forks of repositories are excluded from statistics.
+      The data is updated on a daily basis and collected using a new <a href="https://developer.github.com/v4/" class="link dim blue">GitHub GraphQL API v4</a>.</span>
+    </p> 
+  </div>        
+  
+  <div class="mt4" id="disqus_thread"></div>
+
+</div>
+
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+  this.page.url = 'https://gitstat.tk';  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = 'mainthread'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://gitstat-tk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            

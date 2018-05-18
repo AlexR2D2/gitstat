@@ -1,0 +1,12 @@
+/_build
+/cover
+/deps
+/rel
+erl_crash.dump
+.elixir_ls
+*.ez
+daily_stats
+monthly_stats
+total_stats
+weekly_stats
+yearly_stats
